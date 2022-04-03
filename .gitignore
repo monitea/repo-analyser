@@ -1,0 +1,8 @@
+repos/
+reports/
+input/
+output/
+.pytest_cache
+__pycache__
+.vscode
+.idea
