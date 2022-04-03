@@ -30,7 +30,7 @@ def generate_repo_data(repo):
                 },
                 {
                     "data": time_data["open_pulls_long_living"],
-                    "label": "Open PRs to master and develop",
+                    "label": "Open PRs to long living branches",
                     "borderColor": "#000dff",
                     "fill": "false"
                 },
