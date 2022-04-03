@@ -1,0 +1,26 @@
+[
+    {
+      "name": "Team1",
+      "color": "#1A8FE3",
+      "members": [
+        {
+          "name": "Jane Doe",
+          "email": "jane.doe@test.com",
+          "login": "jane.doe.work"
+        }
+      ]
+    },
+
+    {
+        "name": "Team2",
+        "color": "#1A8FE3",
+        "members": [
+          {
+            "name": "Jane Doe",
+            "email": "jane.doe@test.com",
+            "login": "jane.doe.work"
+          }
+        ]
+      }
+  
+]

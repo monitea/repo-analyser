@@ -1,0 +1,20 @@
+[
+    {
+        "server": "github.com",
+        "owner": "user-or-organization",
+        "name": "repo-name",
+        "public": "true",
+        "protocol": "https",
+        "ignore_list": [ "pom.xml", "package-lock" ]
+    },
+    
+    {
+        "server": "github.com",
+        "owner": "user-or-organization",
+        "name": "repo-name",
+        "public": "false",
+        "token": "asddasdasdad",
+        "protocol": "https",
+        "ignore_list": [ "pom.xml", "package-lock" ]
+    }
+]
