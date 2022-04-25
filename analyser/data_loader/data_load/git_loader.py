@@ -31,18 +31,28 @@ def load_repo(repository_config: dict, repository: dict):
         token=token
     )
     repository["top_committers"] = __get_unique_committers(grepo, limit=10)
+    repository["full_top_committers"] = __get_unique_committers(grepo)
     repository["top_committers_3m"] = __get_unique_committers(grepo, limit=10, after="3 months ago")
+    repository["full_top_committers_3m"] = __get_unique_committers(grepo, after="3 months ago")
     repository["total_unique_committers"] = __get_unique_committers_number(grepo)
     repository["heatmap"] = __get_repository_heatmap(grepo,
                                                      ignore_list=repository_config["ignore_list"],
                                                      results=10
                                                      )
+    repository["full_heatmap"] = __get_repository_heatmap(grepo,
+                                                          ignore_list=repository_config["ignore_list"]
+                                                          )
 
     repository["heatmap_3m"] = __get_repository_heatmap(grepo,
                                                         ignore_list=repository_config["ignore_list"],
                                                         after='3 months ago',
                                                         results=10
                                                         )
+    repository["full_heatmap_3m"] = __get_repository_heatmap(grepo,
+                                                             ignore_list=repository_config["ignore_list"],
+                                                             after='3 months ago',
+                                                             results=10
+                                                             )
 
     unique_committers = []
 

@@ -154,11 +154,11 @@ def __parse_prs(repo: GitHubRepository, json_data):
             author_id = node['author']['login']
 
         pr = PullRequest(
-            createdAt=created_at,
+            created_at=created_at,
             closed=node['closed'],
-            closedAt=closed_at,
+            closed_at=closed_at,
             merged=node['merged'],
-            mergedAt=merged_at,
+            merged_at=merged_at,
             number=node['number'],
             permalink=node['permalink'],
             state=node['state'],

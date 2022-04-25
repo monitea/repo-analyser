@@ -25,7 +25,7 @@ class GitHubRepository:
     def prs_at(self, when: datetime) -> List or None:
         if when < self.createdAt:
             return None
-        return [pr for pr in self.pulls if pr.createdAt < when]
+        return [pr for pr in self.pulls if datetime.datetime.fromisoformat(pr.created_at) < when]
 
     def prs_long_living_at(self, long_living: List, when: datetime) -> List or None:
         if when < self.createdAt:
@@ -68,7 +68,8 @@ class GitHubRepository:
 
     def open_prs_over_age(self, age: timedelta) -> List or None:
         open_prs = self.open_prs_at(datetime.datetime.now())
-        older = [pr for pr in open_prs if (datetime.datetime.now() - pr.createdAt > age)]
+        older = [pr for pr in open_prs if
+                 (datetime.datetime.now() - datetime.datetime.fromisoformat(pr.created_at) > age)]
         return older
 
     def open_prs_number_over_age(self, age: timedelta) -> int or None:
@@ -79,7 +80,7 @@ class GitHubRepository:
         if when < self.createdAt:
             return None
         pulls = self.prs_at(when)
-        discarded = [pr for pr in pulls if (status_at(pr, when) == PRStatus.CLOSED) and pr.mergedAt is None]
+        discarded = [pr for pr in pulls if (status_at(pr, when) == PRStatus.CLOSED) and pr.merged_at is None]
         return discarded
 
     def discarded_prs_number_at(self, when: datetime) -> int or None:
@@ -106,8 +107,8 @@ class GitHubRepository:
             return None
         sliding_window_merges = self.merged_prs_at(when)
         sliding_window_merges = [pr for pr in sliding_window_merges
-                                 if (when - pr.mergedAt) <= timedelta(
-                days=window if window else self.sliding_window_length)]
+                                 if (when - datetime.datetime.fromisoformat(pr.merged_at))
+                                 <= timedelta(days=window if window else self.sliding_window_length)]
         return len(sliding_window_merges)
 
     def median_pr_age_at(self, when: datetime) -> timedelta or None:
