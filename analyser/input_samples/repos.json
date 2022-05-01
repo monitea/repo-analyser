@@ -3,18 +3,24 @@
         "server": "github.com",
         "owner": "user-or-organization",
         "name": "repo-name",
-        "public": "true",
+        "api": "api.github.com/graphql",
+        "token":"token-with-repo-access",
         "protocol": "https",
-        "ignore_list": [ "pom.xml", "package-lock" ]
+        "ignore_list": [ "pom.xml", "package-lock" ],
+        "long_living_branches": ["develop","master"],
+        "main_branches": ["production"],
+        "stale_branch_after": 30
     },
-    
     {
         "server": "github.com",
-        "owner": "user-or-organization",
-        "name": "repo-name",
-        "public": "false",
-        "token": "asddasdasdad",
+        "owner": "user-or-organization1",
+        "name": "repo-name1",
+        "api": "api.github.com/graphql",
+        "token":"token-with-repo-access",
         "protocol": "https",
-        "ignore_list": [ "pom.xml", "package-lock" ]
+        "ignore_list": [ "pom.xml", "package-lock" ],
+        "long_living_branches": ["develop","master"],
+        "main_branches": ["production"],
+        "stale_branch_after": 30
     }
 ]

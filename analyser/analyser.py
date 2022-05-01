@@ -5,16 +5,16 @@ import json
 
 def main():
     repositories_config = cl.load_repos()
+    teams_config = cl.load_teams()
     repository_data = []
 
     for repository_config in repositories_config:
-        repository = dl.load_repository(repository_config)
+        repository = dl.load_repository(repository_config, teams_config)
         repository_data.append(repository)
 
     with open('output/repositories.json', 'w+') as outfile:
         json.dump(repository_data, outfile, default=json_serial)
 
-    teams_config = cl.load_teams()
     team_data = []
     if teams_config:
         for team_config in teams_config:

@@ -14,17 +14,12 @@ repo_folder_base_path = "repos/"
 
 
 def load_repo(repository_config: dict, repository: dict):
-    if repository_config.get('git_stats') is not None:
-        if not repository_config.get('git_stats'):
-            return
-
     token = repository_config.get('token')
     if token is None:
         token = ""
 
     grepo = __prepare_repo(
         protocol=repository_config.get('protocol'),
-        public=repository_config.get('is_repo_public'),
         server=repository_config.get('server'),
         owner=repository_config.get('owner'),
         name=repository_config.get('name'),
@@ -70,14 +65,12 @@ def load_repo(repository_config: dict, repository: dict):
     __repo_cleanup(repository_config.get('name'))
 
 
-def __prepare_repo(protocol: str, server: str, owner: str, name: str, public: bool, token: str = "") -> Repo:
+def __prepare_repo(protocol: str, server: str, owner: str, name: str, token: str = "") -> Repo:
     __repo_cleanup(name)
 
     Path(repo_folder_base_path).mkdir(parents=True, exist_ok=True)
 
-    token_part = ""
-    if not public:
-        token_part = token + "@"
+    token_part = token + "@"
 
     repo_github_path = protocol + "://" + token_part + server + "/" + owner + "/" + name
     repo_folder_path = repo_folder_base_path + name

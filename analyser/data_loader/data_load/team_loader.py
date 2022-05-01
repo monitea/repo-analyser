@@ -1,3 +1,6 @@
+import datetime
+from datetime import datetime, timedelta
+
 
 def load_team(team_config, repository_data):
     team = {
@@ -14,7 +17,8 @@ def load_team(team_config, repository_data):
     for repo in repository_data:
         team_repo = {
             "name": repo["name"],
-            "owner": repo["owner"]
+            "owner": repo["owner"],
+            "created_at": repo["created_at"]
         }
         top_committers = [entry for entry in repo["full_top_committers"]
                           if entry["name"] in members_committer_names]
@@ -27,6 +31,22 @@ def load_team(team_config, repository_data):
         team_repos.append(team_repo)
 
     team["repositories"] = team_repos
+    days = []
+    when = first_created_date
+    while True:
+        days.append(datetime.strftime(when, "%Y-%m-%d"))
+        when += timedelta(days=1)
+        if when > datetime.now():
+            break
+    #
+    # for day in days:
+    #     for repo in repository_data:
+    #
+    #
+    #         open_prs_at = repo.open_prs_at(datetime.datetime.strptime(day, "%Y-%m-%d"))
+    #         value = len([pr for pr in open_prs_at if pr.authorID in team_member_logins]) \
+    #             if open_prs_at is not None else None
+    #         team_stat[repo_name].append(value)
 
     return team
 

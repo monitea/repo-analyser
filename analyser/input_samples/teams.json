@@ -7,13 +7,17 @@
           "name": "Jane Doe",
           "email": "jane.doe@test.com",
           "login": "jane.doe.work"
+        },
+        {
+          "name": "Jimmy Doe",
+          "email": "jimmy.doe@test.com",
+          "login": "jimmy.doe"
         }
       ]
     },
-
     {
         "name": "Team2",
-        "color": "#1A8FE3",
+        "color": "#1A8F85",
         "members": [
           {
             "name": "Jane Doe",
@@ -22,5 +26,4 @@
           }
         ]
       }
-  
 ]

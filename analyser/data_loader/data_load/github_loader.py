@@ -8,17 +8,12 @@ from data_loader.data_models.pr import PullRequest, age_at
 from datetime import timedelta, datetime
 
 
-def load_repo(repository_config: dict, repository: dict):
-    if repository_config.get('github_stats') is not None:
-        if not repository_config.get('github_stats'):
-            return
-
+def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     ghrepo = GitHubRepository(name=repository_config["name"], owner=repository_config["owner"])
     logging.debug(repository_config)
 
     client = __prepare_client(
         protocol=repository_config.get('protocol'),
-        public=repository_config.get('is_api_public'),
         server=repository_config.get('api'),
         token=repository_config.get('token')
     )
@@ -53,7 +48,6 @@ def load_repo(repository_config: dict, repository: dict):
         repository["oldest_pr_link"] = None
         repository["oldest_pr_age"] = None
 
-    when = repository["created_at"]
     days = []
     timestamps = []
     open_pulls = []
@@ -61,16 +55,40 @@ def load_repo(repository_config: dict, repository: dict):
     medians = []
     merged_last_week = []
 
+    repository["time_data"] = {}
+    repository["time_data"]["teams"] = {}
+
+    when = repository["created_at"]
+
+    team_logins = {}
+    if teams_config:
+        for team in teams_config:
+            team_logins[team["name"]] = [member["login"] for member in team["members"]]
+            repository["time_data"]["teams"][team["name"]] = {
+                "open_prs": [],
+                "open_prs_long_living": [],
+                "color": team["color"]
+            }
+
     while True:
         days.append(datetime.strftime(when, "%Y-%m-%d"))
         timestamps.append(datetime.timestamp(when))
 
-        open_prs = ghrepo.open_prs_number_at(when)
-        open_pulls.append(open_prs)
+        open_prs_number = ghrepo.open_prs_number_at(when)
+        open_pulls.append(open_prs_number)
 
-        open_prs_long_living = ghrepo.open_prs_long_living_number_at(repository_config.get('long_living_branches'),
-                                                                     when)
-        open_pulls_long_living.append(open_prs_long_living)
+        open_prs = ghrepo.open_prs_at(when)
+        open_prs_long_living = ghrepo.open_prs_long_living_at(
+            repository_config.get('long_living_branches'),
+            when
+        )
+
+        open_prs_long_living_number = ghrepo.open_prs_long_living_number_at(
+            repository_config.get('long_living_branches'),
+            when
+        )
+
+        open_pulls_long_living.append(open_prs_long_living_number)
 
         median_at = ghrepo.median_open_pr_age_at(when)
         medians.append(median_at)
@@ -78,13 +96,24 @@ def load_repo(repository_config: dict, repository: dict):
         last_week_at = ghrepo.sliding_window_merged_prs_number_at(when, 7)
         merged_last_week.append(last_week_at)
 
+        if teams_config:
+            for team in teams_config:
+                team_prs = [pr for pr in open_prs if pr.authorID in team_logins[team["name"]]]
+                repository["time_data"]["teams"][team["name"]]["open_prs"].append(len(team_prs))
+                team_prs_long_living = [pr for pr in open_prs_long_living if pr.authorID in team_logins[team["name"]]]
+                repository["time_data"]["teams"][team["name"]]["open_prs_long_living"].append(len(team_prs_long_living))
+
         when += timedelta(days=1)
         if when > datetime.now():
             break
 
+    if teams_config:
+        for team in teams_config:
+            if not [number for number in repository["time_data"]["teams"][team["name"]]["open_prs"] if number > 0]:
+                del(repository["time_data"]["teams"][team["name"]])
+
     medians = [median.total_seconds() / 3600 / 24 for median in medians]
 
-    repository["time_data"] = {}
     repository["time_data"]["days"] = days
     repository["time_data"]["open_pulls"] = open_pulls
     repository["time_data"]["open_pulls_long_living"] = open_pulls_long_living
@@ -93,15 +122,14 @@ def load_repo(repository_config: dict, repository: dict):
     repository["time_data"]["timestamps"] = timestamps
 
 
-def __prepare_client(protocol: str, server: str, public: bool, token: str = ""):
+def __prepare_client(protocol: str, server: str, token: str = ""):
     logging.debug("token")
     logging.debug(token)
     github_domain: str = protocol + "://" + server
     jar = aiohttp.CookieJar()
     headers = {'Accept': 'application/json'}
-    if not public:
-        authorization = "Bearer " + token
-        headers['Authorization'] = authorization
+    authorization = "Bearer " + token
+    headers['Authorization'] = authorization
 
     logging.debug("headers")
     logging.debug(headers)
