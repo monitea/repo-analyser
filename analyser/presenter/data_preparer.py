@@ -72,6 +72,37 @@ def generate_repo_data(repo):
     with open('reports/html/git/' + repo_data["name"] + '/data/merge-trends.js', 'a') as outfile:
         json.dump(merge_data, outfile)
 
+    # team data
+    datasets = []
+    for name, info in time_data["teams"].items():
+        datasets.append(
+            {
+                "data": info["open_prs"],
+                "label": name + ": Open PRs to main branches",
+                "borderColor": info["color"],
+                "fill": "false"
+            }
+        )
+        datasets.append(
+            {
+                "data": info["open_prs_long_living"],
+                "label": name + ": Open PRs to long living branches",
+                "borderColor": info["color"],
+                "fill": "false"
+            }
+        )
+
+    team_data = {
+            "labels": time_data["days"],
+            "datasets": datasets
+        }
+
+    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', 'w+') as outfile:
+        outfile.write('var teamdata = ')
+
+    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', 'a') as outfile:
+        json.dump(team_data, outfile)
+
 
 def prepare_repo_html(name: str):
     shutil.copy('presenter/resources/git/index.html', 'reports/html/git/' + name + "/")

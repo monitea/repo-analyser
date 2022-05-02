@@ -37,6 +37,22 @@ var mergeChart = new Chart(ctx3, {
   }
 });
 
+var ctx4 = document.getElementById("teamsChart");
+var teamChart = new Chart(ctx4, {
+  type: 'line',
+  data: teamdata,
+  options: {
+    scales: {
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: getMaxOf(teamdata)
+        }
+      }]
+    }
+  }
+});
+
 function generateHostpotsLi(hostpotsList){
   var out = "";
   hostpotsList.forEach(function(element){

@@ -1,5 +1,4 @@
 import datetime
-import json
 from enum import Enum
 
 
@@ -52,8 +51,10 @@ def status_at(pull_request: PullRequest, when: datetime) -> str or None:
         return None
     if datetime.datetime.fromisoformat(pull_request.created_at) < when:
         if (
-                (pull_request.closed_at is None and pull_request.merged_at is None) or
-                (pull_request.closed_at is not None and datetime.datetime.fromisoformat(pull_request.closed_at) >= when) or
+                (pull_request.closed_at is None and pull_request.merged_at is None)
+                or
+                (pull_request.closed_at is not None and datetime.datetime.fromisoformat(pull_request.closed_at) >= when)
+                or
                 (pull_request.merged_at is not None and datetime.datetime.fromisoformat(pull_request.merged_at) >= when)
         ):
             return PRStatus.OPEN
