@@ -1,5 +1,9 @@
 This software does statistical analysis of git and github-based repositories.
-It will accept a list of repositories to analyse (with credentials if necessary) and talk both to github and check out code to do some analysis.
+It will accept a list of repositories to analyse (with credentials if necessary) and talk both to github and check out code to do analysis.
+
+# Logic
+While some of those statistics can be obtained from github or git, it is not very simple and not really team oriented.
+This software allows you to understand trends happening 
 
 # Input data and formats
 Configuration files must be placed in `analyser/input` folder.
@@ -56,7 +60,7 @@ This expects you to define following entries:
 ]
 ```
 3. `mailmap` file in ```.mailmap``` format that will be used as default mailmap if no mailmap file is available in your repository. See https://git-scm.com/docs/gitmailmap. Optional. If your repository contains its own `.mailmap` file, it will be used. If your repository does not have `.mailmap`
-file, but you provide `mailmap` file in `input` folder, this will be used. Not providing `.mailmap` file may result in confusing results, as different user emails will be recognized as different users. See linked document.
+file, but you provide `mailmap` file in `input` folder, this will be used. Not providing `.mailmap` file may result in confusing results, as different user emails will be recognized as different users. See linked document. `Here file name must be WITHOUT leading dot`
 
 # Folder structure
 `data_loader` python sources for analyser
