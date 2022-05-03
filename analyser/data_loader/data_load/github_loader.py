@@ -22,7 +22,7 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     __query_for_prs(client=client, repo=ghrepo)
     __query_for_branches(client=client, repo=ghrepo)
     repository["created_at"] = ghrepo.createdAt
-    # repository["prs"] = ghrepo.pulls
+    repository["prs"] = ghrepo.pulls
     repository["branches_number"] = len(ghrepo.branches)
     # repository["branches_list"] = ghrepo.branches
     longest = str(ghrepo.oldest_open_pr_age_at(datetime.now()))

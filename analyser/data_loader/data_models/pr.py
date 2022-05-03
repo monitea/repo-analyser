@@ -24,12 +24,12 @@ class PullRequest:
 
     def __init__(self, state, created_at, closed_at, merged, merged_at, permalink,
                  number, baseRefName, headRefName, closed, authorID):
-        if created_at:
+        if isinstance(created_at, datetime.datetime):
             self.created_at = created_at.isoformat()
-        if closed_at:
+        if isinstance(closed_at, datetime.datetime):
             self.closed_at = closed_at.isoformat()
         self.permalink = permalink
-        if merged_at:
+        if isinstance(merged_at, datetime.datetime):
             self.merged_at = merged_at.isoformat()
         self.merged = merged
         self.number = number
