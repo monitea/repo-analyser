@@ -11,7 +11,7 @@ def load_repository(repository_config: dict, teams_config: dict) -> Dict:
                   }
 
     ghl.load_repo(repository_config=repository_config, repository=repository, teams_config=teams_config)
-    gl.load_repo(repository_config=repository_config, repository=repository)
+    gl.load_repo(repository_config=repository_config, repository=repository, teams_config=teams_config)
     # logging.error(repository)
 
     return repository

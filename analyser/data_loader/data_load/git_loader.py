@@ -13,7 +13,7 @@ from pathlib import Path
 repo_folder_base_path = "repos/"
 
 
-def load_repo(repository_config: dict, repository: dict):
+def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     token = repository_config.get('token')
     if token is None:
         token = ""
@@ -45,8 +45,7 @@ def load_repo(repository_config: dict, repository: dict):
                                                         )
     repository["full_heatmap_3m"] = __get_repository_heatmap(grepo,
                                                              ignore_list=repository_config["ignore_list"],
-                                                             after='3 months ago',
-                                                             results=10
+                                                             after='3 months ago'
                                                              )
 
     unique_committers = []
@@ -62,11 +61,29 @@ def load_repo(repository_config: dict, repository: dict):
     if unique_committers:
         repository["time_data"]["unique_committers"] = unique_committers
 
-    __repo_cleanup(repository_config.get('name'))
+    if teams_config:
+        for team in teams_config:
+            team_names = [member["name"] for member in team["members"]]
+            team_heatmap = repository["heatmap"] = __get_repository_heatmap(
+                grepo,
+                ignore_list=repository_config["ignore_list"],
+                results=10,
+                authors=team_names
+            )
+            team_heatmap_3m = __get_repository_heatmap(
+                grepo,
+                ignore_list=repository_config["ignore_list"],
+                after='3 months ago',
+                results=10,
+                authors=team_names
+            )
+            repository["time_data"]["teams"][team["name"]]["heatmap"] = team_heatmap
+            repository["time_data"]["teams"][team["name"]]["heatmap_3m"] = team_heatmap_3m
+
+    __repo_cleanup(repository_config.get('name'), grepo)
 
 
 def __prepare_repo(protocol: str, server: str, owner: str, name: str, token: str = "") -> Repo:
-    __repo_cleanup(name)
 
     Path(repo_folder_base_path).mkdir(parents=True, exist_ok=True)
 
@@ -124,8 +141,18 @@ def __get_unique_committers(repo: Repo, before="", after="", limit=-1) -> List:
     return sorted_authors
 
 
-def __get_repository_heatmap(repo: Repo, before: str = "", after: str = "", ignore_list: List = [], results: int = -1):
+def __get_repository_heatmap(repo: Repo,
+                             before: str = "",
+                             after: str = "",
+                             ignore_list: List = [],
+                             results: int = -1,
+                             authors: List = []):
     params = ['--name-only', '--no-merges', '--pretty=oneline']
+    if authors:
+        authors = ["\(" + author + "\)" for author in authors]
+        authors_param = "\|".join(authors)
+        params.append("--author=" + authors_param)
+
     if before:
         params.append('--before=' + before)
     if after:
@@ -150,7 +177,8 @@ def __get_repository_heatmap(repo: Repo, before: str = "", after: str = "", igno
     return data
 
 
-def __repo_cleanup(name):
-    # TODO: check accesses
+def __repo_cleanup(name, repo: Repo,):
+    # repo.close()
+    # shutil.rmtree(path=repo.working_tree_dir)
     logging.error("Cleanup called for: " + repo_folder_base_path + name)
 

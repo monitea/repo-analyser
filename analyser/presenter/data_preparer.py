@@ -78,7 +78,7 @@ def generate_repo_data(repo):
         datasets.append(
             {
                 "data": info["open_prs"],
-                "label": name + ": Open PRs to main branches",
+                "label": name + ": Open PRs",
                 "borderColor": info["color"],
                 "fill": "false"
             }
@@ -107,7 +107,6 @@ def generate_repo_data(repo):
 def prepare_repo_html(name: str):
     shutil.copy('presenter/resources/git/index.html', 'reports/html/git/' + name + "/")
     shutil.copy('presenter/resources/git/script.js', 'reports/html/git/' + name + "/")
-    shutil.copy('presenter/resources/git/nav.js', 'reports/html/git/' + name + "/")
     shutil.copy('presenter/resources/git/style.css', 'reports/html/git/' + name + "/")
     shutil.copy('presenter/resources/git/Chart.2.8.0.bundle.min.js', 'reports/html/git/' + name + "/")
 

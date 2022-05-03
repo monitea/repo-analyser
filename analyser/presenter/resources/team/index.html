@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title id="title">title</title>
+    <script src="Chart.2.8.0.bundle.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <div  class="nav">
+      <div id="back"></div>
+      <div id="nav"></div>
+    </div>
+    <h1 id="h1">header</h1>
+    <div class="wrapper">
+      <div id="date"> </div>
+      <table>
+      <tr>
+          <th>
+            <div>Name:</div>
+          </th>
+          <td>
+              <div id="name">name</div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <div>Members:</div>
+          </th>
+          <td>
+              <div id="members">members</div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <div>PRs currently open:</div>
+          </th>
+          <td>
+              <div id="open_prs">Open PRs</div>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <div>PRs to long living branches currently open:</div>
+          </th>
+          <td>
+            <div id="long_living_prs">long living PRs</div>
+          </td>
+        </tr>
+        <tr>
+        <tr>
+          <th>
+            <div>Total PRs:</div>
+          </th>
+          <td id = "total_prs">
+              total
+          </td>
+        </tr>
+      </table>
+    </div>
+    <h2>Pull request statistics over time</h2>
+    <div class="wrapper">
+      <canvas id="prChart" width="1600" height="900"></canvas>
+    </div>
+
+    <h2>Pull request merge over time</h2>
+    <div class="wrapper">
+      <canvas id="mergeChart" width="1600" height="900"></canvas>
+    </div>
+
+    <h2>Team charts</h2>
+    <div class="wrapper">
+      <canvas id="teamsChart" width="1600" height="900"></canvas>
+    </div>
+
+    <div class="wrapper">
+      <h3>Most modified files: last 3 months</h3>
+      <table id="hotspots3m">
+        <tr></tr>
+      </table>
+    </div>
+    <div class="wrapper">
+        <h3>Most modified files: all time</h3>
+        <table id="hotspots">
+            <tr></tr>
+        </table>
+    </div>
+    <div class="wrapper">
+      <table>
+        <tr>
+          <td>
+            <h3>Top 10 committers ever</h3>
+            <table id="most_active">
+              <tr></tr>
+            </table>
+          </td>
+          <td>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </td>
+          <td>
+            <h3>Top 10 committers last 3 months</h3>
+            <table id="most_active_3m">
+              <tr></tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="wrapper">
+      <h3>Stale branches</h3>
+      <table id="stale_branches">
+        <tr></tr>
+      </table>
+    </div>
+    <script src="data/pr-trends.js"></script>
+    <script src="data/merge-trends.js"></script>
+    <script src="data/repo-data.js"></script>
+    <script src="data/teams.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
