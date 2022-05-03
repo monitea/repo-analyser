@@ -56,7 +56,7 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     merged_last_week = []
 
     repository["time_data"] = {}
-    repository["time_data"]["teams"] = {}
+    repository["teams"] = {}
 
     when = repository["created_at"]
 
@@ -64,7 +64,7 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     if teams_config:
         for team in teams_config:
             team_logins[team["name"]] = [member["login"] for member in team["members"]]
-            repository["time_data"]["teams"][team["name"]] = {
+            repository["teams"][team["name"]] = {
                 "open_prs": [],
                 "open_prs_long_living": [],
                 "color": team["color"]
@@ -99,9 +99,9 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
         if teams_config:
             for team in teams_config:
                 team_prs = [pr for pr in open_prs if pr.authorID in team_logins[team["name"]]]
-                repository["time_data"]["teams"][team["name"]]["open_prs"].append(len(team_prs))
+                repository["teams"][team["name"]]["open_prs"].append(len(team_prs))
                 team_prs_long_living = [pr for pr in open_prs_long_living if pr.authorID in team_logins[team["name"]]]
-                repository["time_data"]["teams"][team["name"]]["open_prs_long_living"].append(len(team_prs_long_living))
+                repository["teams"][team["name"]]["open_prs_long_living"].append(len(team_prs_long_living))
 
         when += timedelta(days=1)
         if when > datetime.now():
@@ -109,8 +109,8 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
 
     if teams_config:
         for team in teams_config:
-            if not [number for number in repository["time_data"]["teams"][team["name"]]["open_prs"] if number > 0]:
-                del(repository["time_data"]["teams"][team["name"]])
+            if not [number for number in repository["teams"][team["name"]]["open_prs"] if number > 0]:
+                del(repository["teams"][team["name"]])
 
     medians = [median.total_seconds() / 3600 / 24 for median in medians]
 

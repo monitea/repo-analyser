@@ -77,8 +77,8 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
                 results=10,
                 authors=team_names
             )
-            repository["time_data"]["teams"][team["name"]]["heatmap"] = team_heatmap
-            repository["time_data"]["teams"][team["name"]]["heatmap_3m"] = team_heatmap_3m
+            repository["teams"][team["name"]]["heatmap"] = team_heatmap
+            repository["teams"][team["name"]]["heatmap_3m"] = team_heatmap_3m
 
     __repo_cleanup(repository_config.get('name'), grepo)
 

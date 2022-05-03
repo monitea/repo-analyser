@@ -13,6 +13,15 @@ def load_team(team_config, repository_data):
     team["first_created_date"] = first_created_date
     members_committer_names = [member["name"] + " <" + member["email"] + ">" for member in team["members"]]
     member_ids = [member["login"] for member in team["members"]]
+
+    days = []
+    when = first_created_date
+    while True:
+        days.append(datetime.strftime(when, "%Y-%m-%d"))
+        when += timedelta(days=1)
+        if when > datetime.now():
+            break
+
     team_repos = []
     for repo in repository_data:
         team_repo = {
@@ -31,13 +40,7 @@ def load_team(team_config, repository_data):
         team_repos.append(team_repo)
 
     team["repositories"] = team_repos
-    days = []
-    when = first_created_date
-    while True:
-        days.append(datetime.strftime(when, "%Y-%m-%d"))
-        when += timedelta(days=1)
-        if when > datetime.now():
-            break
+
     #
     # for day in days:
     #     for repo in repository_data:

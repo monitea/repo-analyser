@@ -21,43 +21,16 @@ var prChart = new Chart(ctx, {
     }
 });
 
-var ctx3 = document.getElementById("mergeChart");
-var mergeChart = new Chart(ctx3, {
-  type: 'line',
-  data: mergedata,
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: getMaxOf(mergedata)
-        }
-      }]
-    }
-  }
-});
-
-var ctx4 = document.getElementById("teamsChart");
-var teamChart = new Chart(ctx4, {
-  type: 'line',
-  data: teamdata,
-  options: {
-    scales: {
-      yAxes: [{
-        ticks: {
-          min: 0,
-          max: getMaxOf(teamdata)
-        }
-      }]
-    }
-  }
-});
 
 function generateHostpotsLi(hostpotsList){
   var out = "";
   hostpotsList.forEach(function(element){
     out+="<tr><td>"+element.name+"</td><td>"+element.value+"</td></tr>"
   })
+
+  if (out === ""){
+    out = "No files modified in this timeframe"
+  }
   return out
 }
 
@@ -82,26 +55,17 @@ function generateStaleBranchesLi(branchesList){
 }
 
 
-document.getElementById("date").innerHTML = "Generated " + repodata.generation_date ;
-document.getElementById("owner").innerHTML = repodata.owner;
-document.getElementById("total_prs").innerHTML = repodata.total_prs;
-document.getElementById("open_prs").innerHTML = repodata.total_open_prs_now;
-document.getElementById("long_living_prs").innerHTML = repodata.open_prs_long_living_now;
-document.getElementById("created").innerHTML = repodata.created_at;
-document.getElementById("branches").innerHTML = repodata.branches_number + " stale: " + repodata.stale_branches.length;
-document.getElementById("most_active").innerHTML = generateComittersLi(repodata.top_committers)
-document.getElementById("most_active_3m").innerHTML = generateComittersLi(repodata.top_committers_3m)
-document.getElementById("stale_branches").innerHTML = generateStaleBranchesLi(repodata.stale_branches)
+//document.getElementById("date").innerHTML = "Generated " + teamdata.generation_date ;
+//document.getElementById("branches").innerHTML = teamdata.branches_number + " stale: " + teamdata.stale_branches.length;
+//document.getElementById("most_active").innerHTML = generateComittersLi(teamdata.top_committers)
+//document.getElementById("most_active_3m").innerHTML = generateComittersLi(teamdata.top_committers_3m)
+//document.getElementById("stale_branches").innerHTML = generateStaleBranchesLi(teamdata.stale_branches)
 
-if(repodata.oldest_pr_link!=null){
-  document.getElementById("oldest_pr_link").href = repodata.oldest_pr_link;
-  document.getElementById("oldest_pr_link").innerHTML = "Oldest PR, age:" + repodata.oldest_pr_age;
-}else{
-  document.getElementById("oldest_pr").innerHTML = "No open PRs";
-}
-document.getElementById("name").innerHTML = repodata.name;
-document.getElementById("h1").innerHTML = repodata.name + ' statistics';
-document.getElementById("title").innerHTML = repodata.name;
 
-document.getElementById("hotspots").innerHTML = generateHostpotsLi(repodata.heatmap)
-document.getElementById("hotspots3m").innerHTML = generateHostpotsLi(repodata.heatmap_3m)
+document.getElementById("name").innerHTML = teamdata.name;
+document.getElementById("h1").innerHTML = teamdata.name + ' statistics';
+document.getElementById("title").innerHTML = teamdata.name;
+
+//
+//document.getElementById("hotspots").innerHTML = generateHostpotsLi(teamdata.heatmap)
+//document.getElementById("hotspots3m").innerHTML = generateHostpotsLi(teamdata.heatmap_3m)

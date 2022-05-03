@@ -1,17 +1,23 @@
 import json
 import logging
 
-from presenter.data_preparer import generate_repo_data, prepare_repo_html
+from presenter.data_preparer import generate_repo_data, prepare_repo_html, generate_team_data
 
 
 def main():
 
     with open('output/repositories.json', 'r') as outfile:
-        data = json.load(outfile)
+        repo_data = json.load(outfile)
 
-    for repo in data:
+    for repo in repo_data:
         generate_repo_data(repo)
         prepare_repo_html(repo["name"])
+
+    with open('output/teams.json', 'r') as outfile:
+        team_data = json.load(outfile)
+
+    for team in team_data:
+        generate_team_data(team, repo_data)
 
 
 if __name__ == "__main__":
