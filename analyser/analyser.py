@@ -2,6 +2,8 @@ from data_loader.data_load import config_loader as cl, data_loader as dl, team_l
 from datetime import date, datetime
 import json
 
+from data_loader.data_models.pr import PullRequest
+
 
 def main():
     repositories_config = cl.load_repos()
@@ -14,6 +16,7 @@ def main():
 
     with open('output/repositories.json', 'w+') as outfile:
         json.dump(repository_data, outfile, default=json_serial)
+        #  to deserialize use json.loads(json_string, object_hook=object_hook)
 
     team_data = []
     if teams_config:
@@ -30,8 +33,16 @@ def json_serial(obj):
 
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
+    elif isinstance(obj, PullRequest):
+        return {'__class__': 'PullRequest', '__dict__': obj.__dict__}
     else:
         return str(obj)
+
+
+def object_hook(obj):
+    if isinstance(obj, dict) and obj.get('__class__') == 'PullRequest':
+        return PullRequest(**obj.get('__dict__'))
+    return obj
 
 
 if __name__ == "__main__":
