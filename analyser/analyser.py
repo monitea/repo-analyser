@@ -15,7 +15,7 @@ def main():
         repository_data.append(repository)
 
     with open('output/repositories.json', 'w+') as outfile:
-        json.dump(repository_data, outfile, default=json_serial)
+        json.dump(repository_data, outfile, default=json_serial, indent=4, sort_keys=True)
         #  to deserialize use json.loads(json_string, object_hook=object_hook)
 
     team_data = []
@@ -25,7 +25,7 @@ def main():
             team_data.append(team)
 
         with open('output/teams.json', 'w+') as outfile:
-            json.dump(team_data, outfile, default=json_serial)
+            json.dump(team_data, outfile, default=json_serial, indent=4, sort_keys=True)
 
 
 def json_serial(obj):

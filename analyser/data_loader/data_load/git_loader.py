@@ -63,22 +63,24 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
 
     if teams_config:
         for team in teams_config:
-            team_names = [member["name"] for member in team["members"]]
-            team_heatmap = repository["heatmap"] = __get_repository_heatmap(
+            team_name = team["name"]
+            # repository["teams"][team_name] = {"heatmap": [], "heatmap_3m": []}
+            team_member_names = [member["name"] for member in team["members"]]
+            team_heatmap = __get_repository_heatmap(
                 grepo,
                 ignore_list=repository_config["ignore_list"],
                 results=10,
-                authors=team_names
+                authors=team_member_names
             )
             team_heatmap_3m = __get_repository_heatmap(
                 grepo,
                 ignore_list=repository_config["ignore_list"],
                 after='3 months ago',
                 results=10,
-                authors=team_names
+                authors=team_member_names
             )
-            repository["teams"][team["name"]]["heatmap"] = team_heatmap
-            repository["teams"][team["name"]]["heatmap_3m"] = team_heatmap_3m
+            repository["teams"][team_name]["heatmap"] = team_heatmap
+            repository["teams"][team_name]["heatmap_3m"] = team_heatmap_3m
 
     __repo_cleanup(repository_config.get('name'), grepo)
 
@@ -170,11 +172,12 @@ def __get_repository_heatmap(repo: Repo,
     dd = OrderedDict(sorted(counted.items(), key=lambda x: x[1], reverse=True))
 
     data = [{"name": key, "value": value} for key, value in dd.items() if key]
+    if data:
+        if results > 0:
+            data = data[:results]
+        return data
 
-    if results > 0:
-        data = data[:results]
-
-    return data
+    return []
 
 
 def __repo_cleanup(name, repo: Repo,):

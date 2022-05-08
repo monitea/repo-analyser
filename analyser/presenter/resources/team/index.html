@@ -27,31 +27,47 @@
             <div>Members:</div>
           </th>
           <td>
-              <div id="members">members</div>
+              <div id="members" class="members">members</div>
           </td>
         </tr>
       </table>
     </div>
     <h2>Pull request statistics over time</h2>
     <div class="wrapper">
-      <canvas id="prChart" width="1600" height="900"></canvas>
+      <canvas id="prChart" ></canvas>
     </div>
 
     <div class="wrapper">
-      <h3>Most modified files: last 3 months</h3>
-      <table id="hotspots3m">
-        <tr></tr>
+      <table>
+        <td>
+          <div>
+            <h3>Top comitters: last 3 months</h3>
+            <table id="topcommitters3m">
+              <tr></tr>
+            </table>
+          </div>
+        </td>
+        <td>&nbsp;</td>
+        <td>
+          <div>
+              <h3>Top committers: all time</h3>
+              <table id="topcommitters">
+                  <tr></tr>
+              </table>
+          </div>
+        </td>
       </table>
     </div>
+
     <div class="wrapper">
-        <h3>Most modified files: all time</h3>
-        <table id="hotspots">
-            <tr></tr>
-        </table>
+      <h3>Stale branches</h3>
+      <table id="stale">
+          <tr></tr>
+      </table>
     </div>
 
-    <script src="data/pr-trends.js"></script>
     <script src="data/team.js"></script>
+    <script src="data/team_time.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

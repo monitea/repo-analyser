@@ -24,7 +24,7 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     repository["created_at"] = ghrepo.createdAt
     repository["prs"] = ghrepo.pulls
     repository["branches_number"] = len(ghrepo.branches)
-    # repository["branches_list"] = ghrepo.branches
+    repository["branches_list"] = ghrepo.branches
     longest = str(ghrepo.oldest_open_pr_age_at(datetime.now()))
     repository["oldest_pr"] = longest
     total_prs = ghrepo.prs_number_at(datetime.now())
@@ -110,7 +110,8 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     if teams_config:
         for team in teams_config:
             if not [number for number in repository["teams"][team["name"]]["open_prs"] if number > 0]:
-                del(repository["teams"][team["name"]])
+                del(repository["teams"][team["name"]]["open_prs"])
+                del(repository["teams"][team["name"]]["open_prs_long_living"])
 
     medians = [median.total_seconds() / 3600 / 24 for median in medians]
 

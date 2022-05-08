@@ -13,11 +13,14 @@ def main():
         generate_repo_data(repo)
         prepare_repo_html(repo["name"])
 
-    with open('output/teams.json', 'r') as outfile:
-        team_data = json.load(outfile)
+    try:
+        with open('output/teams.json', 'r') as outfile:
+            team_data = json.load(outfile)
 
-    for team in team_data:
-        generate_team_data(team, repo_data)
+        for team in team_data:
+            generate_team_data(team, repo_data)
+    except:
+        logging.log("No file defining teams avialable, data will not be generated")
 
 
 if __name__ == "__main__":
