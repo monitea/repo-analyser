@@ -1,26 +1,26 @@
 [
     {
         "server": "github.com",
-        "owner": "user-or-organization",
-        "name": "repo-name",
         "api": "api.github.com/graphql",
+        "owner": "user",
+        "name": "repo1",
         "token":"token-with-repo-access",
         "protocol": "https",
-        "ignore_list": [ "pom.xml", "package-lock" ],
-        "long_living_branches": ["develop","master"],
+        "ignore_list": [ "pom.xml", "yarn.lock", "package.json", "package-lock.json", "mix.lock" ],
+        "long_living_branches": ["master", "staging"],
         "main_branches": ["production"],
         "stale_branch_after": 30
     },
-    {
+        {
         "server": "github.com",
-        "owner": "user-or-organization1",
-        "name": "repo-name1",
         "api": "api.github.com/graphql",
+        "owner": "organization",
+        "name": "repo2",
         "token":"token-with-repo-access",
         "protocol": "https",
-        "ignore_list": [ "pom.xml", "package-lock" ],
-        "long_living_branches": ["develop","master"],
-        "main_branches": ["production"],
+        "ignore_list": [ "pom.xml", "yarn.lock", "package.json", "package-lock.json", "mix.lock" ],
+        "long_living_branches": ["production", "staging", "main"],
+        "main_branches": ["main"],
         "stale_branch_after": 30
     }
 ]

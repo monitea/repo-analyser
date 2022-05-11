@@ -8,31 +8,18 @@ function getMaxOf(data){
 var ctx = document.getElementById("prChart");
 var prChart = new Chart(ctx, {
     type: 'line',
-    data: prdata,
+    data: timedata,
     options: {
       scales: {
         yAxes: [{
           ticks: {
             min: 0,
-            max: getMaxOf(prdata)
+            max: getMaxOf(timedata)
           }
         }]
       }
     }
 });
-
-
-function generateHostpotsLi(hostpotsList){
-  var out = "";
-  hostpotsList.forEach(function(element){
-    out+="<tr><td>"+element.name+"</td><td>"+element.value+"</td></tr>"
-  })
-
-  if (out === ""){
-    out = "No files modified in this timeframe"
-  }
-  return out
-}
 
 function generateComittersLi(comittersList){
   var out = "";
@@ -54,18 +41,60 @@ function generateStaleBranchesLi(branchesList){
   return out
 }
 
+function generateStaleBranches(repositories){
+  var out = "";
+  repositories.forEach(function(element){
+    out += "<th>" + element.name + "</th>"
+    out+= generateStaleBranchesLi(element.stale_branches)
+  })
+  return out
+}
 
-//document.getElementById("date").innerHTML = "Generated " + teamdata.generation_date ;
-//document.getElementById("branches").innerHTML = teamdata.branches_number + " stale: " + teamdata.stale_branches.length;
-//document.getElementById("most_active").innerHTML = generateComittersLi(teamdata.top_committers)
-//document.getElementById("most_active_3m").innerHTML = generateComittersLi(teamdata.top_committers_3m)
-//document.getElementById("stale_branches").innerHTML = generateStaleBranchesLi(teamdata.stale_branches)
+function generateMembersList(membersList){
+  var out = "";
+  membersList.forEach(function(element){
+    out+="<p class = \"member\">"+ element.name + "<p>"
+  })
+  return out
+}
 
+function generateTopCommittersLi(hostpotsList){
+  var out = "";
+  hostpotsList.forEach(function(element){
+    out+="<tr><td>"+element.name+"</td><td>"+element.commits+"</td></tr>"
+  })
 
+  if (out === ""){
+    out = "No files modified in this timeframe"
+  }
+  return out;
+}
+
+function generateTopCommitters3m(repositories){
+  var out = "";
+
+  repositories.forEach(function(element){
+    out += "<th>"+element.name+"</th>"
+    out += generateTopCommittersLi(element.top_committers_3m)
+  })
+
+  return out;
+}
+
+function generateTopCommitters(repositories){
+  var out = "";
+
+  repositories.forEach(function(element){
+    out += "<th>"+element.name+"</th>"
+    out += generateTopCommittersLi(element.top_committers)
+  })
+
+  return out;
+}
+document.getElementById("members").innerHTML = generateMembersList(teamdata.members)
 document.getElementById("name").innerHTML = teamdata.name;
 document.getElementById("h1").innerHTML = teamdata.name + ' statistics';
 document.getElementById("title").innerHTML = teamdata.name;
-
-//
-//document.getElementById("hotspots").innerHTML = generateHostpotsLi(teamdata.heatmap)
-//document.getElementById("hotspots3m").innerHTML = generateHostpotsLi(teamdata.heatmap_3m)
+document.getElementById("topcommitters3m").innerHTML = generateTopCommitters3m(teamdata.repositories)
+document.getElementById("topcommitters").innerHTML = generateTopCommitters(teamdata.repositories)
+document.getElementById("stale").innerHTML = generateStaleBranches(teamdata.repositories)
