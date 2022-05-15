@@ -122,10 +122,12 @@ class GitHubRepository:
             return ages[0]
         return np.median(ages)
 
-    def median_open_pr_age_at(self, when: datetime) -> timedelta or None:
+    def median_open_pr_age_at(self, when: datetime, users: list = None) -> timedelta or None:
         if when < self.createdAt:
             return None
         pulls = self.open_prs_at(when)
+        if users:
+            pulls = [pull for pull in pulls if pull.authorID in users]
         ages = [age_at(pr, when) for pr in pulls]
         if len(ages) == 0:
             return timedelta(hours=0)

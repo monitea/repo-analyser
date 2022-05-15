@@ -26,7 +26,7 @@ h2 {
   font-family: "Times New Roman";
 }
 
-.members{
+.flex{
     display: flex;
     flex-direction: row;
 }

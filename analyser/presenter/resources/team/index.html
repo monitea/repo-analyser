@@ -27,7 +27,7 @@
             <div>Members:</div>
           </th>
           <td>
-              <div id="members" class="members">members</div>
+              <div id="members" class="flex">members</div>
           </td>
         </tr>
       </table>
@@ -35,6 +35,15 @@
     <h2>Pull request statistics over time</h2>
     <div class="wrapper">
       <canvas id="prChart" ></canvas>
+    </div>
+    <div class="wrapper">
+      <h2>Current PR lifetime medians </h2>
+      <div id="medians" class="flex"/>
+    </div>
+    </div>
+    <div class="wrapper">
+      <h2>PR lifetime medians</h2>
+      <canvas id="medianChart" ></canvas>
     </div>
 
     <div class="wrapper">
@@ -68,6 +77,7 @@
 
     <script src="data/team.js"></script>
     <script src="data/team_time.js"></script>
+    <script src="data/team_medians.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

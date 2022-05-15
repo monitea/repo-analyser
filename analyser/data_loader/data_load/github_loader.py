@@ -67,6 +67,7 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
             repository["teams"][team["name"]] = {
                 "open_prs": [],
                 "open_prs_long_living": [],
+                "medians": [],
                 "color": team["color"]
             }
 
@@ -102,6 +103,8 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
                 repository["teams"][team["name"]]["open_prs"].append(len(team_prs))
                 team_prs_long_living = [pr for pr in open_prs_long_living if pr.authorID in team_logins[team["name"]]]
                 repository["teams"][team["name"]]["open_prs_long_living"].append(len(team_prs_long_living))
+                team_median = ghrepo.median_open_pr_age_at(when, team_logins[team["name"]])
+                repository["teams"][team["name"]]["medians"].append(team_median)
 
         when += timedelta(days=1)
         if when > datetime.now():
@@ -114,6 +117,12 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
                 del(repository["teams"][team["name"]]["open_prs_long_living"])
 
     medians = [median.total_seconds() / 3600 / 24 for median in medians]
+
+    if teams_config:
+        for team in teams_config:
+            team_medians = repository["teams"][team["name"]]["medians"]
+            repository["teams"][team["name"]]["medians"] = [median.total_seconds() / 3600 / 24
+                                                            for median in team_medians]
 
     repository["time_data"]["days"] = days
     repository["time_data"]["open_pulls"] = open_pulls

@@ -44,24 +44,11 @@ def load_team(team_config, repository_data):
             team_repo["open_prs"] = repo["teams"][team_name]["open_prs"]
         if "open_prs_long_living" in repo["teams"][team_name]:
             team_repo["open_prs_long_living"] = repo["teams"][team_name]["open_prs_long_living"]
+        team_repo["medians"] = repo["teams"][team_name]["medians"]
         team_repo["time_data"]["days"] = repo["time_data"]["days"]
         team_repo["time_data"]["timestamps"] = repo["time_data"]["timestamps"]
         team_repos.append(team_repo)
 
     team["repositories"] = team_repos
 
-    #
-    # for day in days:
-    #     for repo in repository_data:
-    #
-    #
-    #         open_prs_at = repo.open_prs_at(datetime.datetime.strptime(day, "%Y-%m-%d"))
-    #         value = len([pr for pr in open_prs_at if pr.authorID in team_member_logins]) \
-    #             if open_prs_at is not None else None
-    #         team_stat[repo_name].append(value)
-
     return team
-
-
-# team contributions
-# team hotspots

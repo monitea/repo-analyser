@@ -21,9 +21,26 @@ var prChart = new Chart(ctx, {
     }
 });
 
-function generateComittersLi(comittersList){
+
+var ctx1 = document.getElementById("medianChart");
+var medianChart = new Chart(ctx1, {
+    type: 'line',
+    data: mediandata,
+    options: {
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+            max: getMaxOf(mediandata)
+          }
+        }]
+      }
+    }
+});
+
+function generateCommittersLi(committersList){
   var out = "";
-  comittersList.forEach(function(element){
+  committersList.forEach(function(element){
     out+="<tr><td>"+element.name+"</td><td>"+element.commits+"</td></tr>"
   })
 
@@ -38,6 +55,9 @@ function generateStaleBranchesLi(branchesList){
   branchesList.forEach(function(element){
     out+="<tr><td>"+element.name+"</td><td>"+element.lastCommit+"</td><td>"+element.lastAuthor+"</td></tr>"
   })
+  if (out == ""){
+    out = "<tr><td>No stale branches found</td><td></td></tr>"
+  }
   return out
 }
 
@@ -53,7 +73,7 @@ function generateStaleBranches(repositories){
 function generateMembersList(membersList){
   var out = "";
   membersList.forEach(function(element){
-    out+="<p class = \"member\">"+ element.name + "<p>"
+    out+="<p class = \"member\">&nbsp;"+ element.name + "&nbsp;<p>"
   })
   return out
 }
@@ -65,7 +85,7 @@ function generateTopCommittersLi(hostpotsList){
   })
 
   if (out === ""){
-    out = "No files modified in this timeframe"
+    out = "<tr><td>No files modified in this timeframe</td><td></td></tr>"
   }
   return out;
 }
@@ -91,6 +111,18 @@ function generateTopCommitters(repositories){
 
   return out;
 }
+
+function generateMedians(current_medians){
+    var out = "";
+    current_medians.forEach(function (element){
+        var keys = Object.keys(element);
+        keys.forEach(function(key_element){
+            out += "&nbsp;<div>" + key_element + ": " + element[key_element] + "</div>&nbsp;"
+        })
+    })
+    return out;
+}
+
 document.getElementById("members").innerHTML = generateMembersList(teamdata.members)
 document.getElementById("name").innerHTML = teamdata.name;
 document.getElementById("h1").innerHTML = teamdata.name + ' statistics';
@@ -98,3 +130,4 @@ document.getElementById("title").innerHTML = teamdata.name;
 document.getElementById("topcommitters3m").innerHTML = generateTopCommitters3m(teamdata.repositories)
 document.getElementById("topcommitters").innerHTML = generateTopCommitters(teamdata.repositories)
 document.getElementById("stale").innerHTML = generateStaleBranches(teamdata.repositories)
+document.getElementById("medians").innerHTML = generateMedians(teamdata.current_medians)
