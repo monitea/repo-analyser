@@ -20,7 +20,7 @@ This expects you to define following entries:
         "token":"<token_with_repo_access>",
         "protocol": "https",
         "ignore_list": [ "pom.xml", "yarn.lock", "package.json", "package-lock.json" ], //files in your repo to ignore during analysis
-        "long_living_branches": ["develop","master"], //long living branches of your repo, will never be marked as stale
+        "long_living_branches": ["develop","master"], //long living branches of your repo, will never be marked as stale, they are also counted as a separate data point when analysing PR statistics
         "main_branches": ["production"], //main branches of your repo, will never be marked as stale 
         "stale_branch_after": 30 //days of no activity after which branch is set to stale
     },
@@ -74,5 +74,14 @@ file, but you provide `mailmap` file in `input` folder, this will be used. Not p
 Using `analyser` as root folder, start `analyser.py` script.
 It will check out the repository into `repos` folder and run analysis using both git and github capabilities.
 
+Once the analysis is completed, run `presenter.py` script to generate html reports.
+
+If you don't want to use defualt reports, feel free to use extracted data placed in `output` folder to create your own reports.
+
 # Using with docker
 It is recommended to mount both `input` and `reports` folders into your image for easy configuration and report storage.
+
+# Known issues and quirks
+To perform the analysis, this software must check out the repository being analysed.
+At the moment the `repos` folder, where repositories to analyse are placed, is not being cleaned up. If you want to 
+analyse multiple large repositories, be mindful of available space.
