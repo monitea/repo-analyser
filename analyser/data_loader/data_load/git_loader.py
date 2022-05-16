@@ -64,7 +64,6 @@ def load_repo(repository_config: dict, repository: dict, teams_config: dict):
     if teams_config:
         for team in teams_config:
             team_name = team["name"]
-            # repository["teams"][team_name] = {"heatmap": [], "heatmap_3m": []}
             team_member_names = [member["name"] for member in team["members"]]
             team_heatmap = __get_repository_heatmap(
                 grepo,

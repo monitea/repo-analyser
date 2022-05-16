@@ -32,14 +32,18 @@ def load_team(team_config, repository_data):
             "created_at": repo["created_at"],
             "time_data": {}
         }
-        top_committers = [entry for entry in repo["full_top_committers"]
+        team_top_committers = [entry for entry in repo["full_top_committers"]
                           if entry["name"] in members_committer_names]
-        team_repo["top_committers"] = top_committers[0:10]
+        team_repo["top_committers"] = team_top_committers[0:10]
         top_committers_3m = [entry for entry in repo["full_top_committers_3m"]
                              if entry["name"] in members_committer_names]
         team_repo["top_committers_3m"] = top_committers_3m[0:10]
         stale_branches = [branch for branch in repo["stale_branches"] if branch["lastAuthorId"] in member_ids]
         team_repo["stale_branches"] = stale_branches
+        if "heatmap" in repo["teams"][team_name]:
+            team_repo["heatmap"] = repo["teams"][team_name]["heatmap"]
+        if "open_prs" in repo["teams"][team_name]:
+            team_repo["heatmap3m"] = repo["teams"][team_name]["heatmap_3m"]
         if "open_prs" in repo["teams"][team_name]:
             team_repo["open_prs"] = repo["teams"][team_name]["open_prs"]
         if "open_prs_long_living" in repo["teams"][team_name]:

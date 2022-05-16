@@ -123,6 +123,40 @@ function generateMedians(current_medians){
     return out;
 }
 
+function generateHostpotsLi(hostpotsList){
+  var out = "";
+  if (hostpotsList){
+      hostpotsList.forEach(function(element){
+        out+="<tr><td>"+element.name+"</td><td>"+element.value+"</td></tr>"
+      })
+      if (out === ""){
+        out = "<tr><td>No files modified in this timeframe</td><td></td></tr>"
+      }
+      return out
+  }
+  return "<tr><td>No files modified in this timeframe</td><td></td></tr>"
+}
+
+function generateHotspots3m(repositories){
+  var out = "";
+
+  repositories.forEach(function(element){
+    out += "<th>"+element.name+"</th>"
+    out += generateHostpotsLi(element.heatmap3m)
+  })
+  return out;
+}
+
+function generateHotspots(repositories){
+  var out = "";
+
+  repositories.forEach(function(element){
+    out += "<th>"+element.name+"</th>"
+    out += generateHostpotsLi(element.heatmap)
+  })
+  return out;
+}
+
 document.getElementById("members").innerHTML = generateMembersList(teamdata.members)
 document.getElementById("name").innerHTML = teamdata.name;
 document.getElementById("h1").innerHTML = teamdata.name + ' statistics';
@@ -131,3 +165,5 @@ document.getElementById("topcommitters3m").innerHTML = generateTopCommitters3m(t
 document.getElementById("topcommitters").innerHTML = generateTopCommitters(teamdata.repositories)
 document.getElementById("stale").innerHTML = generateStaleBranches(teamdata.repositories)
 document.getElementById("medians").innerHTML = generateMedians(teamdata.current_medians)
+document.getElementById("heatmap").innerHTML = generateHotspots(teamdata.repositories)
+document.getElementById("heatmap3m").innerHTML = generateHotspots3m(teamdata.repositories)
