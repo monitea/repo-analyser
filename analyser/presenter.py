@@ -14,7 +14,7 @@ def main():
         prepare_repo_html(repo["name"])
 
     try:
-        with open('output/teams.json', mode='r', encoding="UTF-8"') as outfile:
+        with open('output/teams.json', mode='r', encoding="UTF-8") as outfile:
             team_data = json.load(outfile)
 
         for team in team_data:
