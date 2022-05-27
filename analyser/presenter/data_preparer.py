@@ -114,6 +114,7 @@ def prepare_repo_html(name: str):
     shutil.copy('presenter/resources/git/script.js', 'reports/html/git/' + name + "/")
     shutil.copy('presenter/resources/git/style.css', 'reports/html/git/' + name + "/")
     shutil.copy('presenter/resources/git/Chart.2.8.0.bundle.min.js', 'reports/html/git/' + name + "/")
+    shutil.copy('presenter/resources/index.html', 'reports/html/index.html')
 
 
 def generate_team_data(team: dict, repos: dict):
@@ -209,7 +210,51 @@ def generate_team_details(team: dict):
                 'reports/html/teams/' + team_data["name"] + "/")
     shutil.copy('presenter/resources/team/style.css', 'reports/html/teams/' + team_data["name"] + "/")
 
+    
+def generate_repository_index(repositories: dict):
+    out = "<!DOCTYPE html>\n"
+    out += "<html>\n"
+    out += "<head>\n"
+    out += "<meta charset=\"utf-8\">\n"
+    out += "<title>Repository index</title>\n"
+    out += "</head>\n"
+    out += "<body>\n"
+    out += "<h1> Repositories </h1>\n"
+    out += "<ol>\n"
 
+    for repo in repositories:
+        out += f"<li><a href=\"{repo['name'].lower()}/index.html\">{repo['name']} </a> </li>\n"
+
+    out += "</ol>\n"
+    out += "</body>\n"
+
+    with open('reports/html/git/index.html', mode='w+',
+              encoding="UTF-8") as outfile:
+        outfile.write(out)
+
+
+def generate_team_index(teams: dict):
+    out = "<!DOCTYPE html>\n"
+    out += "<html>\n"
+    out += "<head>\n"
+    out += "<meta charset=\"utf-8\">\n"
+    out += "<title>Team index</title>\n"
+    out += "</head>\n"
+    out += "<body>\n"
+    out += "<h1> Teams </h1>\n"
+    out += "<ol>\n"
+
+    for team in teams:
+        out += f"<li><a href=\"{team['name'].lower()}/index.html\">{team['name']} </a> </li>\n"
+
+    out += "</ol>\n"
+    out += "</body>\n"
+
+    with open('reports/html/teams/index.html', mode='w+',
+              encoding="UTF-8") as outfile:
+        outfile.write(out)
+
+    
 def generate_team_repo_details(team: dict, days: list):
     time_data = {
         "days": days,
