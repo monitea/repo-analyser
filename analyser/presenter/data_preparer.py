@@ -13,9 +13,9 @@ def generate_repo_data(repo):
 
     Path("reports/html/git/" + repo_data["name"] + "/data").mkdir(parents=True, exist_ok=True)
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/repo-data.js', 'w+') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/repo-data.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var repodata = ')
-    with open('reports/html/git/' + repo_data["name"] + '/data/repo-data.js', 'a') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/repo-data.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(repo_data, outfile)
 
     time_data = {}
@@ -45,10 +45,10 @@ def generate_repo_data(repo):
             ]
         }
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/pr-trends.js', 'w+') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/pr-trends.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var prdata = ')
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/pr-trends.js', 'a') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/pr-trends.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(pr_data, outfile)
 
     merge_data = {
@@ -68,10 +68,10 @@ def generate_repo_data(repo):
             }
         ]
     }
-    with open('reports/html/git/' + repo_data["name"] + '/data/merge-trends.js', 'w+') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/merge-trends.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var mergedata = ')
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/merge-trends.js', 'a') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/merge-trends.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(merge_data, outfile)
 
     # team data
@@ -102,10 +102,10 @@ def generate_repo_data(repo):
             "datasets": datasets
         }
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', 'w+') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var teamdata = ')
 
-    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', 'a') as outfile:
+    with open('reports/html/git/' + repo_data["name"] + '/data/teams.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(team_data, outfile)
 
 
@@ -174,9 +174,9 @@ def generate_team_median_data(team: dict, days: list):
         "datasets": datasets
     }
 
-    with open('reports/html/teams/' + team["name"].lower() + '/data/team_medians.js', 'w+') as outfile:
+    with open('reports/html/teams/' + team["name"].lower() + '/data/team_medians.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var mediandata = ')
-    with open('reports/html/teams/' + team["name"].lower() + '/data/team_medians.js', 'a') as outfile:
+    with open('reports/html/teams/' + team["name"].lower() + '/data/team_medians.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(team_median_data, outfile)
 
 
@@ -198,9 +198,9 @@ def generate_team_details(team: dict):
         if "open_prs" in repo:
             del(repo["open_prs"])
 
-    with open('reports/html/teams/' + team_data["name"].lower() + '/data/team.js', 'w+') as outfile:
+    with open('reports/html/teams/' + team_data["name"].lower() + '/data/team.js', mode='w+', encoding="UTF-8") as outfile:
         outfile.write('var teamdata = ')
-    with open('reports/html/teams/' + team_data["name"].lower() + '/data/team.js', 'a') as outfile:
+    with open('reports/html/teams/' + team_data["name"].lower() + '/data/team.js', mode='a', encoding="UTF-8") as outfile:
         json.dump(team_data, outfile)
 
     shutil.copy('presenter/resources/team/index.html', 'reports/html/teams/' + team_data["name"] + "/")
@@ -265,7 +265,7 @@ def generate_team_repo_details(team: dict, days: list):
             "datasets": datasets
         }
 
-        with open('reports/html/teams/' + team["name"].lower() + '/data/team_time.js', 'w+') as outfile:
+        with open('reports/html/teams/' + team["name"].lower() + '/data/team_time.js', mode='w+', encoding="UTF-8") as outfile:
             outfile.write('var timedata = ')
-        with open('reports/html/teams/' + team["name"].lower() + '/data/team_time.js', 'a') as outfile:
+        with open('reports/html/teams/' + team["name"].lower() + '/data/team_time.js', mode='a', encoding="UTF-8") as outfile:
             json.dump(team_time_data, outfile)

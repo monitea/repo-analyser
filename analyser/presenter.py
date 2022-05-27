@@ -6,7 +6,7 @@ from presenter.data_preparer import generate_repo_data, prepare_repo_html, gener
 
 def main():
 
-    with open('output/repositories.json', 'r') as outfile:
+    with open('output/repositories.json', mode='r', encoding="UTF-8") as outfile:
         repo_data = json.load(outfile)
 
     for repo in repo_data:
@@ -14,7 +14,7 @@ def main():
         prepare_repo_html(repo["name"])
 
     try:
-        with open('output/teams.json', 'r') as outfile:
+        with open('output/teams.json', mode='r', encoding="UTF-8"') as outfile:
             team_data = json.load(outfile)
 
         for team in team_data:

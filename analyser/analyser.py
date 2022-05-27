@@ -14,7 +14,7 @@ def main():
         repository = dl.load_repository(repository_config, teams_config)
         repository_data.append(repository)
 
-    with open('output/repositories.json', 'w+') as outfile:
+    with open('output/repositories.json', mode='w+', encoding="UTF-8") as outfile:
         json.dump(repository_data, outfile, default=json_serial, indent=4, sort_keys=True)
         #  to deserialize use json.loads(json_string, object_hook=object_hook)
 
@@ -24,7 +24,7 @@ def main():
             team = tl.load_team(team_config, repository_data)
             team_data.append(team)
 
-        with open('output/teams.json', 'w+') as outfile:
+        with open('output/teams.json', mode='w+', encoding="UTF-8") as outfile:
             json.dump(team_data, outfile, default=json_serial, indent=4, sort_keys=True)
 
 
