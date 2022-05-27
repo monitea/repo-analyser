@@ -118,10 +118,12 @@ def __get_unique_committers_number(repo: Repo, before="", after="") -> int:
     return len(sorted_authors)
 
 
-def __get_unique_committers(repo: Repo, before="", after="", limit=-1) -> List:
+def __get_unique_committers(repo: Repo, before="", after="", limit=-1, include_merge_commits=False) -> List:
     repo_folder_path = repo.working_tree_dir
     mailmap_file = os.path.join(repo_folder_path, '.mailmap')
     params = []
+    if not include_merge_commits:
+        params.append('--no-merges')
     if os.path.isfile(mailmap_file):
         params.append(['--use-mailmap'])
     if before:
